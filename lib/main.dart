@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:quiz_app/category.dart';
 import 'package:quiz_app/main.dart';
@@ -23,6 +25,15 @@ void itemSelected(BuildContext ctx, int n) {
 }
 
 class _MyAppState extends State<MyApp> {
+  var categories = [
+    "Technologie",
+    "Science",
+    "Movies",
+    "Cars",
+    "Sport",
+    "Gepgraphy"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,84 +45,39 @@ class _MyAppState extends State<MyApp> {
           padding: const EdgeInsets.all(10.0),
           child: GridView(
             children: [
-              InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Category1",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                onTap: () => itemSelected(context, 0),
-              ),
-              InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Category2",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                onTap: () => itemSelected(context, 1),
-              ),
-              InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Category3",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                onTap: () => itemSelected(context, 2),
-              ),
-              InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Category4",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                onTap: () => itemSelected(context, 3),
-              ),
-              InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Category5",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                onTap: () => itemSelected(context, 4),
-              ),
-              InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Category6",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                onTap: () => itemSelected(context, 5),
-              ),
+              ...(categories)
+                  .map(
+                    (e) => ElevatedButton(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Text(
+                              e,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              stops: [
+                                0.5,
+                                0.9,
+                              ],
+                              colors: [
+                                Colors.blue,
+                                Color.fromARGB(200, 54, 197, 244),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(15)),
+                      ),
+                      onPressed: () =>
+                          itemSelected(context, categories.indexOf(e)),
+                    ),
+                  )
+                  .toList(),
             ],
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,

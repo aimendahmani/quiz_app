@@ -8,21 +8,21 @@ class Result extends StatelessWidget {
   Result(this.q, this.score);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Text(
-            "Done! your score is $score",
-            style: TextStyle(fontSize: 25, color: Colors.blue),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              q();
-            },
-            child: Text("restart!"),
-          )
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          "Done! your score is $score",
+          style: TextStyle(fontSize: 25, color: Colors.blue),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            q();
+          },
+          child: Text("restart!"),
+        )
+      ],
     );
   }
 }
