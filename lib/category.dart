@@ -42,6 +42,24 @@ class _CategoryState extends State<Category> {
     super.initState();
   }
 
+  final leadingAvatar = [
+    {
+      'letter': 'a',
+      'color': Colors.amber,
+    },
+    {
+      'letter': 'b',
+      'color': Color.fromARGB(255, 120, 205, 255),
+    },
+    {
+      'letter': 'c',
+      'color': Color.fromARGB(255, 247, 67, 187),
+    },
+    {
+      'letter': 'd',
+      'color': Color.fromARGB(255, 120, 255, 156),
+    },
+  ];
   final List<Map<String, Object>> quizList = [
     {
       "category": "Technology",
@@ -253,6 +271,7 @@ class _CategoryState extends State<Category> {
 
   int indexQuestion = 0;
   int totalScore = 0;
+  int indexsuggest = -1;
   void incrementIndex(int score) {
     setState(() {
       indexQuestion += 1;
@@ -276,7 +295,9 @@ class _CategoryState extends State<Category> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xff0d77a0),
           title: Text('Quiz App'),
+          centerTitle: true,
           leading: Container(
             child: IconButton(
               onPressed: () {
@@ -290,99 +311,167 @@ class _CategoryState extends State<Category> {
             ),
           ),
         ),
-        body: indexQuestion <
-                (quizList[indexCategory]["quiz"] as List<Map<String, Object>>)
-                    .length
-            ? ListView(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        "Question : ${indexQuestion + 1}/${(quizList[indexCategory]['quiz'] as List<Map<String, Object>>).length}",
-                        style: TextStyle(fontSize: 25, color: Colors.blue),
-                      ),
-                      Text(
-                        "Score : $totalScore",
-                        style: TextStyle(fontSize: 25, color: Colors.blue),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.fromLTRB(20, 10, 20, 30),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
-                    child: Text(
-                      (quizList[indexCategory]["quiz"]
-                                  as List<Map<String, Object>>)[indexQuestion]
-                              ["question"]
-                          .toString(),
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  ),
-                  ...((quizList[indexCategory]["quiz"]
-                              as List<Map<String, Object>>)[indexQuestion]
-                          ["suggestions"] as List<Map<String, Object>>)
-                      .map(
-                        (item) => Material(
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: ElevatedButton(
-                              child: Text(
-                                item["suggest"].toString(),
-                                style: TextStyle(fontSize: 24),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 10, 5, 10),
-                              ),
-                              onPressed: () {
-                                incrementIndex(
-                                    int.parse(item["score"].toString()));
-
-                                print(
-                                    'index : $indexQuestion  score : ${int.parse(item["score"].toString())}');
-                              },
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                  Column(
+        body: Container(
+          color: Color.fromARGB(255, 48, 222, 243),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: indexQuestion <
+                    (quizList[indexCategory]["quiz"]
+                            as List<Map<String, Object>>)
+                        .length
+                ? ListView(
                     children: [
                       Container(
-                        margin: EdgeInsets.all(30),
-                        child: SizedBox(
-                          width: 150,
-                          height: 150,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              CircularProgressIndicator(
-                                value: seconds / maxSeconds,
-                                strokeWidth: 4,
-                              ),
-                              Center(
-                                child: Text(
-                                  "$seconds",
-                                  style: TextStyle(
-                                      fontSize: 25, color: Colors.blue),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 6.0, vertical: 3.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "Question : ${indexQuestion + 1}/${(quizList[indexCategory]['quiz'] as List<Map<String, Object>>).length}",
+                              style:
+                                  TextStyle(fontSize: 25, color: Colors.black),
+                            ),
+                            Text(
+                              "Score : $totalScore",
+                              style:
+                                  TextStyle(fontSize: 25, color: Colors.black),
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 10),
+                                  child: SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: Stack(
+                                      fit: StackFit.expand,
+                                      children: [
+                                        CircularProgressIndicator(
+                                          value: seconds / maxSeconds,
+                                          strokeWidth: 4,
+                                          color: Color(0xff0d77a0),
+                                          backgroundColor: Colors.white,
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            "$seconds",
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                color: Color(0xff0d77a0)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.fromLTRB(20, 10, 20, 30),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 30, horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            (quizList[indexCategory]["quiz"] as List<
+                                        Map<String, Object>>)[indexQuestion]
+                                    ["question"]
+                                .toString(),
+                            style: TextStyle(fontSize: 24),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
+                      ...((quizList[indexCategory]["quiz"]
+                                  as List<Map<String, Object>>)[indexQuestion]
+                              ["suggestions"] as List<Map<String, Object>>)
+                          .map(
+                        (item) {
+                          if (indexsuggest >= 3)
+                            indexsuggest = 0;
+                          else
+                            indexsuggest++;
+                          return Material(
+                            color: Color.fromARGB(255, 48, 222, 243),
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                  overlayColor: int.parse(
+                                              item["score"].toString()) ==
+                                          0
+                                      ? MaterialStateProperty.all(Colors.red)
+                                      : MaterialStateProperty.all(Colors.green),
+                                  animationDuration:
+                                      Duration(milliseconds: 500),
+                                ),
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: leadingAvatar[indexsuggest]
+                                        ['color'] as Color,
+                                    child: Text(
+                                      leadingAvatar[indexsuggest]['letter']
+                                          as String,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  title: Padding(
+                                    padding: const EdgeInsets.only(left: 60.0),
+                                    child: Text(
+                                      item["suggest"].toString(),
+                                      style: TextStyle(
+                                          fontSize: 24, color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Timer(Duration(milliseconds: 500), () {
+                                    incrementIndex(
+                                        int.parse(item["score"].toString()));
+
+                                    print(
+                                        'index : $indexQuestion  score : ${int.parse(item["score"].toString())}');
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
                     ],
-                  ),
-                ],
-              )
-            : Result(restartApp, totalScore),
+                  )
+                : Result(restartApp, totalScore),
+          ),
+        ),
       ),
     );
   }

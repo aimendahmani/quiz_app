@@ -31,59 +31,86 @@ class _MyAppState extends State<MyApp> {
     "Movies",
     "Cars",
     "Sport",
-    "Gepgraphy"
+    "Geography"
   ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text("Quiz App"),
+          centerTitle: true,
+          backgroundColor: Color(0xff0d77a0),
+          elevation: 0,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: GridView(
-            children: [
-              ...(categories)
-                  .map(
-                    (e) => ElevatedButton(
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Column(
+        body: Container(
+          color: Color.fromARGB(255, 48, 222, 243),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: GridView(
+              children: [
+                ...(categories)
+                    .map(
+                      (e) => ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white, // background
+                          onPrimary: Colors.white,
+                          side: BorderSide(
+                            color: Colors.yellow,
+                            width: 4,
+                          ), // foreground
+                        ),
+                        child: Stack(
                           children: [
-                            Text(
-                              e,
-                              style: TextStyle(fontSize: 20),
+                            Center(
+                              child: Image.asset(
+                                'assets/' + e + '.gif',
+                              ),
+                            ),
+                            Center(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 2),
+                                child: Text(
+                                  e,
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    stops: [
+                                      0.2,
+                                      0.9,
+                                    ],
+                                    colors: [
+                                      Colors.pink,
+                                      Color.fromARGB(200, 54, 197, 244),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                        decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              stops: [
-                                0.5,
-                                0.9,
-                              ],
-                              colors: [
-                                Colors.blue,
-                                Color.fromARGB(200, 54, 197, 244),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(15)),
+                        onPressed: () =>
+                            itemSelected(context, categories.indexOf(e)),
                       ),
-                      onPressed: () =>
-                          itemSelected(context, categories.indexOf(e)),
-                    ),
-                  )
-                  .toList(),
-            ],
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              childAspectRatio: 3 / 2,
-              crossAxisSpacing: 15,
-              mainAxisSpacing: 20,
+                    )
+                    .toList(),
+              ],
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 300,
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 20,
+              ),
             ),
           ),
         ),
